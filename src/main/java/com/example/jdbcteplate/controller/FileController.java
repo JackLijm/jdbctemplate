@@ -21,10 +21,11 @@
  */
 package com.example.jdbcteplate.controller;
 
+import com.example.jdbcteplate.dto.CommonDTO;
+import com.example.jdbcteplate.exception.BusinessException;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,7 +43,7 @@ public class FileController {
         FileInputStream inputStream = new FileInputStream(filePath.getFile());
         OutputStream outputStream = response.getOutputStream();
         //指定浏览器以附件的形式下载文件
-        response.setHeader("content-disposition","attachment;filename="+ URLEncoder.encode("你好.txt","utf-8"));
+        response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode("你好.txt", "utf-8"));
         //缓冲区
         byte[] b = new byte[1024];
         int index = 0;
@@ -52,5 +53,21 @@ public class FileController {
         }
         inputStream.close();
         outputStream.close();
+    }
+
+    /**
+     * 上传文件
+     */
+    @RequestMapping("/upload")
+    public CommonDTO upload(@RequestParam("file") MultipartFile file, @RequestParam("companyId") Integer companyId) throws BusinessException {
+        System.out.println(companyId);
+        if (file.isEmpty()) {
+            throw new BusinessException("-1", "上传文件不能为空");
+        }
+        //上传文件 相关逻辑
+        CommonDTO commonDTO = new CommonDTO();
+        commonDTO.setCode("0000");
+        commonDTO.setMsg("上传成功");
+        return commonDTO;
     }
 }
