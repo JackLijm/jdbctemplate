@@ -7,12 +7,6 @@
 
     <select id="qryAcctBlack" resultType="java.util.Map">
        select * from CONFIG
-
-       <if test="xxx != null and xxx != '' ">
-           <bind name="pattern" value="'%' + xxx + '%'"/>
-         where "key" like #{pattern}
-       </if>
-     limit 0,5
     </select>
 
     <select id="querySystemDate" resultType="java.lang.String">

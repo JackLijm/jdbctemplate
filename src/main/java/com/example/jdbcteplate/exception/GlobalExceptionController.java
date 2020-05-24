@@ -21,6 +21,7 @@
  */
 package com.example.jdbcteplate.exception;
 
+import com.example.jdbcteplate.dto.CommonDTO;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -31,15 +32,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionController {
 
     @ExceptionHandler(Exception.class)
-    public String exception(Exception e){
+    public CommonDTO exception(Exception e){
         e.printStackTrace();
-        return e.getMessage();
+        return CommonDTO.err(e.getMessage());
     }
 
     @ExceptionHandler(BusinessException.class)
-    public String businessException(BusinessException e){
+    public CommonDTO businessException(BusinessException e){
         e.printStackTrace();
-        System.out.println("123");
-        return e.getMessage();
+        return CommonDTO.err(e.getMessage());
     }
 }

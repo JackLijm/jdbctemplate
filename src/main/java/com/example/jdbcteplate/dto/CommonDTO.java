@@ -1,30 +1,31 @@
 package com.example.jdbcteplate.dto;
 
+import lombok.Data;
+
+@Data
 public class CommonDTO {
     private String code;
     private String msg;
+    private Object data;
 
-    public String getCode() {
-        return code;
+    public static  CommonDTO ok(){
+        CommonDTO commonDTO = new CommonDTO();
+        commonDTO.setCode("0000");
+        commonDTO.setMsg("处理成功");
+        return commonDTO;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public static  CommonDTO ok(String msg){
+        CommonDTO commonDTO = new CommonDTO();
+        commonDTO.setCode("0000");
+        commonDTO.setMsg(msg);
+        return commonDTO;
     }
 
-    @Override
-    public String toString() {
-        return "CommonDTO{" +
-                "code='" + code + '\'' +
-                ", msg='" + msg + '\'' +
-                '}';
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public static  CommonDTO err(String msg){
+        CommonDTO commonDTO = new CommonDTO();
+        commonDTO.setCode("-1");
+        commonDTO.setMsg(msg);
+        return commonDTO;
     }
 }

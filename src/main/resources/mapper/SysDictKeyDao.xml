@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.jdbcteplate.dao.SysDictKeyDao">
+
+    <resultMap id="BaseResultMap" type="com.example.jdbcteplate.dto.SysDictKeyDTO">
+        <result column="dict_key" jdbcType="VARCHAR" property="dictKey"/>
+        <result column="key_name" jdbcType="VARCHAR" property="keyName"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.example.jdbcteplate.dto.SysDictKeyDTO">
+    insert into sys_dict_key (dict_key, key_name)
+    values (#{dictKey,jdbcType=VARCHAR}, #{keyName,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.example.jdbcteplate.dto.SysDictKeyDTO">
+        insert into sys_dict_key
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="dictKey != null">
+                dict_key,
+            </if>
+            <if test="keyName != null">
+                key_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="dictKey != null">
+                #{dictKey,jdbcType=VARCHAR},
+            </if>
+            <if test="keyName != null">
+                #{keyName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="select" resultMap="BaseResultMap">
+     select dict_key,key_name from sys_dict_key
+    </select>
+
+
+    <update id="update">
+        update sys_dict_key
+        set key_name = #{keyName,jdbcType=VARCHAR}
+        <where>
+            dict_key = #{dictKey,jdbcType=VARCHAR}
+        </where>
+    </update>
+
+    <delete id="delete">
+        delete from sys_dict_key
+        <where>
+            dict_key = #{dictKey,jdbcType=VARCHAR}
+        </where>
+    </delete>
+</mapper>

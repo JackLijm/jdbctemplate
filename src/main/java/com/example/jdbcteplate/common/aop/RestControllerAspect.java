@@ -31,7 +31,7 @@ import java.util.Arrays;
 @Aspect
 @Component
 public class RestControllerAspect {
-    @Pointcut("execution(* com.example.jdbcteplate.controller.*.*(..))")
+    @Pointcut("execution(* com.example.jdbcteplate.*.controller.*.*(..))")
     public void endPoint() {
     }
 

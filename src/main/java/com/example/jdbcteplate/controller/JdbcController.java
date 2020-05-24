@@ -24,6 +24,7 @@ package com.example.jdbcteplate.controller;
 import com.example.jdbcteplate.annotation.ExternalCall;
 import com.example.jdbcteplate.dao.OracleJdbcDao;
 import com.example.jdbcteplate.exception.BusinessException;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,12 +40,16 @@ public class JdbcController {
 
     @RequestMapping("/querySysDate")
     @ExternalCall(name = "hello-world")
-    public String test(String xxx) {
+    public List test(String xxx) {
         Map map = new HashMap<>();
         map.put("xxx", xxx);
+        map.put("pageSize", 6);
+        map.put("pageNum", 1);
         List<Map> maps = dao.qryAcctBlack(map);
-        int a = 1 / 0;
-        return dao.querySystemDate(map);
+        List<Map> maps1 = dao.qryAcctBlack(map);
+        System.out.println(maps.size());
+        System.out.println(maps1.size());
+       return maps;
     }
 
     @RequestMapping("/testException")
