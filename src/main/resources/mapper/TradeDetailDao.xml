@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.jdbcteplate.dao.TradeDetailDao">
+
+    <resultMap id="BaseResultMap" type="com.example.jdbcteplate.dto.TradeDetailDTO">
+        <id column="trade_no" jdbcType="INTEGER" property="tradeNo"/>
+        <result column="trade_type" jdbcType="VARCHAR" property="tradeType"/>
+        <result column="trade_class" jdbcType="VARCHAR" property="tradeClass"/>
+        <result column="trade_sum" jdbcType="DECIMAL" property="tradeSum"/>
+        <result column="trade_date" jdbcType="TIMESTAMP" property="tradeDate"/>
+        <result column="data_source" jdbcType="VARCHAR" property="dataSource"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="created_date" jdbcType="TIMESTAMP" property="createdDate"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    trade_no, trade_type, trade_class, trade_sum, trade_date, data_source, remark, created_date
+  </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from trade_detail
+        where trade_no = #{tradeNo,jdbcType=VARCHAR}
+    </select>
+
+    <select id="query" resultType="com.example.jdbcteplate.dto.TradeDetailDTO">
+        select
+        <include refid="Base_Column_List"/>
+        from trade_detail
+    </select>
+
+    <select id="groupByTradeType" resultType="java.util.Map">
+      select date_format(trade_date, '%Y-%m') as tradeDate,trade_type as tradeType,truncate(sum(trade_sum),2) as tradeSum
+      from trade_detail
+      group by date_format(trade_date, '%Y-%m'),trade_type
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from trade_detail
+    where trade_no = #{tradeNo,jdbcType=VARCHAR}
+  </delete>
+
+    <insert id="insert" keyColumn="trade_no" keyProperty="tradeNo"
+            parameterType="com.example.jdbcteplate.dto.TradeDetailDTO" useGeneratedKeys="true">
+    insert into trade_detail (trade_type, trade_class, trade_sum, 
+      trade_date, data_source, remark)
+    values (#{tradeType,jdbcType=VARCHAR}, #{tradeClass,jdbcType=VARCHAR}, #{tradeSum,jdbcType=DECIMAL}, 
+      #{tradeDate,jdbcType=TIMESTAMP}, #{dataSource,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+  </insert>
+
+    <insert id="insertSelective" keyColumn="trade_no" keyProperty="tradeNo"
+            parameterType="com.example.jdbcteplate.dto.TradeDetailDTO" useGeneratedKeys="true">
+        insert into trade_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tradeType != null">
+                trade_type,
+            </if>
+            <if test="tradeClass != null">
+                trade_class,
+            </if>
+            <if test="tradeSum != null">
+                trade_sum,
+            </if>
+            <if test="tradeDate != null">
+                trade_date,
+            </if>
+            <if test="dataSource != null">
+                data_source,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="createdDate != null">
+                created_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tradeType != null">
+                #{tradeType,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeClass != null">
+                #{tradeClass,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeSum != null">
+                #{tradeSum,jdbcType=DECIMAL},
+            </if>
+            <if test="tradeDate != null">
+                #{tradeDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dataSource != null">
+                #{dataSource,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createdDate != null">
+                #{createdDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.example.jdbcteplate.dto.TradeDetailDTO">
+        update trade_detail
+        <set>
+            <if test="tradeType != null">
+                trade_type = #{tradeType,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeClass != null">
+                trade_class = #{tradeClass,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeSum != null">
+                trade_sum = #{tradeSum,jdbcType=DECIMAL},
+            </if>
+            <if test="tradeDate != null">
+                trade_date = #{tradeDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dataSource != null">
+                data_source = #{dataSource,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createdDate != null">
+                created_date = #{createdDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where trade_no = #{tradeNo,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.example.jdbcteplate.dto.TradeDetailDTO">
+    update trade_detail
+    set trade_type = #{tradeType,jdbcType=VARCHAR},
+      trade_class = #{tradeClass,jdbcType=VARCHAR},
+      trade_sum = #{tradeSum,jdbcType=DECIMAL},
+      trade_date = #{tradeDate,jdbcType=TIMESTAMP},
+      data_source = #{dataSource,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      created_date = #{createdDate,jdbcType=TIMESTAMP}
+    where trade_no = #{tradeNo,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

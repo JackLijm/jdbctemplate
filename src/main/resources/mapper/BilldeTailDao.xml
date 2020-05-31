@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.jdbcteplate.dao.BillDetailDao">
+    <resultMap id="BaseResultMap" type="com.example.jdbcteplate.dto.BillDetailDTO">
+        <result column="serial_no" jdbcType="VARCHAR" property="serialNo"/>
+        <result column="account_no" jdbcType="VARCHAR" property="accountNo"/>
+        <result column="trade_no" jdbcType="VARCHAR" property="tradeNo"/>
+        <result column="trade_time" jdbcType="TIMESTAMP" property="tradeTime"/>
+        <result column="trade_to" jdbcType="VARCHAR" property="tradeTo"/>
+        <result column="goods_name" jdbcType="VARCHAR" property="goodsName"/>
+        <result column="trade_sum" jdbcType="DECIMAL" property="tradeSum"/>
+        <result column="trade_type" jdbcType="VARCHAR" property="tradeType"/>
+        <result column="trade_status" jdbcType="VARCHAR" property="tradeStatus"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="data_source" jdbcType="VARCHAR" property="dataSource"/>
+        <result column="pay_type" jdbcType="VARCHAR" property="payType"/>
+        <result column="main_lable" jdbcType="VARCHAR" property="mainLabel"/>
+        <result column="sub_label" jdbcType="VARCHAR" property="subLabel"/>
+        <result column="serial_no" jdbcType="VARCHAR" property="serialNo"/>
+        <result column="import_batch" jdbcType="VARCHAR" property="importBatch"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.example.jdbcteplate.dto.BillDetailDTO">
+    insert into BillDetail (serial_no,account_no, trade_no, trade_time,
+      trade_to, goods_name, trade_sum, 
+      trade_type, trade_status, remark, 
+      data_source, pay_type, import_batch
+      )
+    values (#{serialNo,jdbcType=VARCHAR},#{accountNo,jdbcType=VARCHAR}, #{tradeNo,jdbcType=VARCHAR}, #{tradeTime,jdbcType=TIMESTAMP},
+      #{tradeTo,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{tradeSum,jdbcType=DECIMAL}, 
+      #{tradeType,jdbcType=VARCHAR}, #{tradeStatus,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{dataSource,jdbcType=VARCHAR}, #{payType,jdbcType=VARCHAR}, #{importBatch,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.example.jdbcteplate.dto.BillDetailDTO">
+        insert into BillDetail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="accountNo != null">
+                account_no,
+            </if>
+            <if test="tradeNo != null">
+                trade_no,
+            </if>
+            <if test="tradeTime != null">
+                trade_time,
+            </if>
+            <if test="tradeTo != null">
+                trade_to,
+            </if>
+            <if test="goodsName != null">
+                goods_name,
+            </if>
+            <if test="tradeSum != null">
+                trade_sum,
+            </if>
+            <if test="tradeType != null">
+                trade_type,
+            </if>
+            <if test="tradeStatus != null">
+                trade_status,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="dataSource != null">
+                data_source,
+            </if>
+            <if test="payType != null">
+                pay_type,
+            </if>
+            <if test="importBatch != null">
+                import_batch,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="accountNo != null">
+                #{accountNo,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeNo != null">
+                #{tradeNo,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeTime != null">
+                #{tradeTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="tradeTo != null">
+                #{tradeTo,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsName != null">
+                #{goodsName,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeSum != null">
+                #{tradeSum,jdbcType=DECIMAL},
+            </if>
+            <if test="tradeType != null">
+                #{tradeType,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeStatus != null">
+                #{tradeStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="dataSource != null">
+                #{dataSource,jdbcType=VARCHAR},
+            </if>
+            <if test="payType != null">
+                #{payType,jdbcType=VARCHAR},
+            </if>
+            <if test="importBatch != null">
+                #{importBatch,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateBillLabel">
+        update BillDetail
+        <set>
+            <if test="mainLabel != null">
+                main_label = #{mainLabel,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeType != null">
+                trade_type = #{tradeType,jdbcType=VARCHAR},
+            </if>
+            <if test="subLabel != null">
+                sub_label = #{subLabel,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where
+        serial_no = #{serialNo,jdbcType=VARCHAR}
+    </update>
+
+    <select id="queryList" resultType="com.example.jdbcteplate.dto.BillDetailDTO">
+        select * from BillDetail
+        <where>
+            <if test="startDate != null">
+                and trade_time > #{startDate,jdbcType=DATE}
+            </if>
+            <if test="endDate != null">
+                and trade_time &lt; #{endDate,jdbcType=DATE}
+            </if>
+            <if test="goodsName != null and goodsName != ''">
+                and goods_name like concat('%',#{goodsName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="tradeTo != null and tradeTo != ''">
+                and trade_to like concat('%',#{tradeTo,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="tradeType != null and tradeType != ''">
+                and trade_type= #{tradeType,jdbcType=VARCHAR}
+            </if>
+            <if test="dataSource != null and dataSource != ''">
+                and data_source = #{dataSource,jdbcType=VARCHAR}
+            </if>
+            <if test="mainLabel != null and mainLabel != ''">
+                and main_label = #{mainLabel,jdbcType=VARCHAR}
+            </if>
+            <if test="subLabel != null and subLabel != ''">
+                and sub_label = #{subLabel,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <select id="groupByTradeType" resultType="java.util.Map">
+        select date_format(trade_time, '%Y-%m') as tradeDate,trade_type as tradeType,truncate(sum(trade_sum),2) as
+        tradeSum
+        from BillDetail
+        <where>
+            trade_type in ('支出','收入')
+        </where>
+        group by date_format(trade_time, '%Y-%m'),trade_type
+    </select>
+
+    <select id="queryMonthData" resultType="com.example.jdbcteplate.dto.MonthDataDTO">
+        select t.tradeType,tradeMonth,t.tradeCount,t.tradeSum from (
+        select t2.value_name as tradeType,
+        date_format(t1.trade_time, '%Y-%m') as tradeMonth,
+        count(1) as tradeCount,
+        round(abs(sum(case
+        when t1.trade_type = '收入' then t1.trade_sum
+        when t1.trade_type = '支出'
+        then -t1.trade_sum end)),2) as tradeSum
+        from BillDetail t1,
+        sys_dict_value t2
+        <where>
+            t1.main_label = t2.dict_value
+            and t2.dict_key = '10002'
+            <if test="month != null ">
+                and date_format(t1.trade_time, '%Y-%m') = date_format(#{month,jdbcType=DATE}, '%Y-%m')
+            </if>
+            <if test="tradeType != null and tradeType != '' ">
+                and t1.trade_type = #{tradeType,jdbcType=VARCHAR}
+            </if>
+            <if test="mainLabelList != null and mainLabelList.size() > 0">
+            and t1.main_label in
+                <foreach collection="mainLabelList" item="mainLabel"  open="(" separator="," close=")">
+                    #{mainLabel}
+                </foreach>
+            </if>
+        </where>
+        group by value_name,date_format(t1.trade_time, '%Y-%m')
+        ) t
+        order by t.tradeMonth
+    </select>
+</mapper>

@@ -1,0 +1,30 @@
+{
+  "code": "0000",
+  "msg": "处理成功",
+  "data": [
+    {
+      "pageSize": 0,
+      "pageNum": 0,
+      "tradeNo": 0,
+      "tradeType": null,
+      "tradeClass": null,
+      "tradeSum": null,
+      "tradeDate": null,
+      "dataSource": null,
+      "remark": "四月份工资",
+      "createdDate": null
+    },
+    {
+      "pageSize": 0,
+      "pageNum": 0,
+      "tradeNo": 0,
+      "tradeType": null,
+      "tradeClass": null,
+      "tradeSum": null,
+      "tradeDate": null,
+      "dataSource": null,
+      "remark": "四月份工资",
+      "createdDate": null
+    }
+  ]
+}
