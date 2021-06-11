@@ -1,18 +1,54 @@
 spring:
   application:
     name: BASE-MAIN
-    type:
   datasource:
-    url: jdbc:mysql://localhost:3306/lijm?serverTimezone=GMT%2B8
-    driverClassName: com.mysql.cj.jdbc.Driver
-    username: root
-    password: 1
-    max-active: 20
-    max-idle: 8
-    min-idle: 8
-    initial-size: 10
-    auto-commit: false
-
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      business:
+        url: jdbc:mysql://localhost:3306/lijm?serverTimezone=GMT%2B8
+        driverClassName: com.mysql.cj.jdbc.Driver
+        username: root
+        password: 1
+      quartz:
+        url: jdbc:mysql://localhost:3306/quartz?serverTimezone=GMT%2B8
+        driverClassName: com.mysql.cj.jdbc.Driver
+        username: root
+        password: 1
+      max-active: 20
+      max-idle: 8
+      min-idle: 8
+      initial-size: 10
+      auto-commit: false
+  quartz:
+    job-store-type: jdbc #持久化到数据库
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instancName: clusteredScheduler
+            instanceId: AUTO
+          jobStore:
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate #StdJDBCDelegate说明支持集群
+            tablePrefix: QRTZ_
+            isClustered: true
+            clusterCheckinInterval: 1000
+            useProperties: false
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 20
+            threadPriority: 5
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password:
+    pool:
+      max-active: 8
+      max-wait: -1
+      max-idle: 8
+      min-idle: 0
+    timeout: 1000
 mybatis:
   mapperLocations: classpath*:/mapper/*.xml
   configuration:

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.jdbcteplate.dao.BillDetailDao">
-    <resultMap id="BaseResultMap" type="com.example.jdbcteplate.dto.BillDetailDTO">
+<mapper namespace="com.example.billmanager.dao.BillDetailDao">
+    <resultMap id="BaseResultMap" type="com.example.billmanager.dto.BillDetailDTO">
         <result column="serial_no" jdbcType="VARCHAR" property="serialNo"/>
         <result column="account_no" jdbcType="VARCHAR" property="accountNo"/>
         <result column="trade_no" jdbcType="VARCHAR" property="tradeNo"/>
@@ -19,7 +19,7 @@
         <result column="serial_no" jdbcType="VARCHAR" property="serialNo"/>
         <result column="import_batch" jdbcType="VARCHAR" property="importBatch"/>
     </resultMap>
-    <insert id="insert" parameterType="com.example.jdbcteplate.dto.BillDetailDTO">
+    <insert id="insert" parameterType="com.example.billmanager.dto.BillDetailDTO">
     insert into BillDetail (serial_no,account_no, trade_no, trade_time,
       trade_to, goods_name, trade_sum, 
       trade_type, trade_status, remark, 
@@ -31,7 +31,7 @@
       #{dataSource,jdbcType=VARCHAR}, #{payType,jdbcType=VARCHAR}, #{importBatch,jdbcType=VARCHAR}
       )
   </insert>
-    <insert id="insertSelective" parameterType="com.example.jdbcteplate.dto.BillDetailDTO">
+    <insert id="insertSelective" parameterType="com.example.billmanager.dto.BillDetailDTO">
         insert into BillDetail
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="accountNo != null">
@@ -131,7 +131,7 @@
         serial_no = #{serialNo,jdbcType=VARCHAR}
     </update>
 
-    <select id="queryList" resultType="com.example.jdbcteplate.dto.BillDetailDTO">
+    <select id="queryList" resultType="com.example.billmanager.dto.BillDetailDTO">
         select * from BillDetail
         <where>
             <if test="startDate != null">
@@ -171,7 +171,7 @@
         group by date_format(trade_time, '%Y-%m'),trade_type
     </select>
 
-    <select id="queryMonthData" resultType="com.example.jdbcteplate.dto.MonthDataDTO">
+    <select id="queryMonthData" resultType="com.example.billmanager.dto.MonthDataDTO">
         select t.tradeType,tradeMonth,t.tradeCount,t.tradeSum from (
         select t2.value_name as tradeType,
         date_format(t1.trade_time, '%Y-%m') as tradeMonth,

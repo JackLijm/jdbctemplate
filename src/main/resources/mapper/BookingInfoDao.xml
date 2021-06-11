@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.billmanager.dao.BookingInfoDao">
+
+    <insert id="insertBooingInfo" parameterType="com.example.billmanager.brickyard.dto.BookingInfoDto">
+        insert into booking_info (booking_Id, apply_Date, client_Name,
+        client_Addr, brick_Type, trade_Count,
+        trade_Unit, is_Clear, good_Sender,
+        created_Date, created_By, updated_Date,
+        updated_By, data_State)
+        values (#{bookingId,jdbcType=VARCHAR}, #{applyDate,jdbcType=TIMESTAMP}, #{clientName,jdbcType=VARCHAR},
+        #{clientAddr,jdbcType=VARCHAR}, #{brickType,jdbcType=VARCHAR}, #{tradeCount,jdbcType=DECIMAL},
+        #{tradeUnit,jdbcType=DECIMAL}, #{isClear,jdbcType=VARCHAR}, #{goodSender,jdbcType=VARCHAR},
+        #{createdDate,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=VARCHAR}, #{updatedDate,jdbcType=TIMESTAMP},
+        #{updatedBy,jdbcType=VARCHAR}, #{dataState,jdbcType=VARCHAR})
+    </insert>
+
+
+    <update id="updateBookingInfo" parameterType="com.example.billmanager.brickyard.dto.BookingInfoDto">
+        update booking_info t
+        <set>
+            t.updated_date = sysdate(),
+            <if test="isClear!=null and isClear!=''">
+                t.is_clear = #{isClear,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+            t.data_state = '2'
+            and t.booking_id = #{bookingId,jdbcType=VARCHAR}
+        </where>
+    </update>
+
+    <delete id="deleteBookingInfo">
+        update booking_info t
+        <set>
+            t.data_state = 'D',
+            t.updated_date = sysdate()
+        </set>
+        <where>
+            t.data_state = '2'
+            and t.booking_id = #{bookingId,jdbcType=VARCHAR}
+        </where>
+    </delete>
+
+
+    <select id="queryBookingInfoList" parameterType="com.example.billmanager.brickyard.dto.QueryParamDto"
+            resultType="com.example.billmanager.brickyard.dto.BookingInfoDto">
+        select t.booking_id as bookingId,
+        t.apply_date as "applyDate",
+        t.client_name as clientName,
+        t.client_addr as clientAddr,
+        t.brick_type as brickType,
+        t.trade_count as tradeCount,
+        t.trade_unit as tradeUnit,
+        t.is_clear as isClear,
+        t.good_sender as goodSender,
+        t.created_date as createdDate,
+        t.created_by as createdBy,
+        t.updated_date as updatedDate,
+        t.updated_by as updatedBy,
+        t.data_state as dataState,
+        t.trade_count*t.trade_unit as price,
+        (select sum(pay.pay_amount) from pay_info pay where pay.booking_id = t.booking_id and pay.data_state = '2') as paySum
+        from booking_info t
+        <where>
+            t.data_state = '2'
+            <if test="clientName != null and clientName != ''">
+                and t.client_name like concat('%',#{clientName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="isClear != null and isClear != ''">
+                and t.is_Clear = #{isClear,jdbcType=VARCHAR}
+            </if>
+            <if test="goodSender != null and goodSender != ''">
+                and t.good_sender like concat('%',#{goodSender,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="applyStartTime != null and applyStartTime != ''">
+                and date_format(t.apply_date,'%Y-%m-%d')>= #{applyStartTime,jdbcType=VARCHAR}
+            </if>
+            <if test="applyEndTime != null and applyEndTime != ''">
+                and date_format(t.apply_date,'%Y-%m-%d')<![CDATA[<=]]> #{applyEndTime,jdbcType=VARCHAR}
+            </if>
+            <if test="bookingId != null and bookingId != ''">
+                and t.booking_id  = #{bookingId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+</mapper>

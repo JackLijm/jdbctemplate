@@ -1,4 +1,4 @@
---- commit
+--- commit commit2 stash2
 DROP TABLE IF EXISTS QRTZ_FIRED_TRIGGERS;
 DROP TABLE IF EXISTS QRTZ_PAUSED_TRIGGER_GRPS;
 DROP TABLE IF EXISTS QRTZ_SCHEDULER_STATE;
@@ -15,7 +15,7 @@ CREATE TABLE QRTZ_JOB_DETAILS(
                                SCHED_NAME VARCHAR(120) NOT NULL,
                                JOB_NAME VARCHAR(200) NOT NULL,
                                JOB_GROUP VARCHAR(200) NOT NULL,
-                               DESCRIPTION VARCHAR(250) NULL,
+                               DESCRIPTION VARCHAR(250) NULL,l
                                JOB_CLASS_NAME VARCHAR(250) NOT NULL,
                                IS_DURABLE VARCHAR(1) NOT NULL,
                                IS_NONCONCURRENT VARCHAR(1) NOT NULL,

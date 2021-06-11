@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.billmanager.dao.PayInfoDao">
+
+    <insert id="insertPayInfo" parameterType="com.example.billmanager.brickyard.dto.PayInfoDto">
+    insert into pay_info (pay_serial_no, booking_id, pay_date,
+      pay_amount, `operator`,remark, created_Date,
+      created_By, updated_Date, updated_By,
+      data_State)
+    values (#{paySerialNo,jdbcType=VARCHAR}, #{bookingId,jdbcType=VARCHAR}, #{payDate,jdbcType=TIMESTAMP},
+      #{payAmount,jdbcType=DECIMAL}, #{operator,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR}, #{createdDate,jdbcType=TIMESTAMP},
+      #{createdBy,jdbcType=VARCHAR}, #{updatedDate,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=VARCHAR},
+      #{dataState,jdbcType=VARCHAR})
+  </insert>
+
+    <delete id="deletePayInfo">
+         update pay_info t
+         <set>
+             t.data_state = 'D',
+             t.updated_date = sysdate()
+         </set>
+         <where>
+             t.data_state = '2'
+             and t.booking_id =  #{bookingId,jdbcType=VARCHAR}
+         </where>
+    </delete>
+
+
+    <select id="queryPayInfoList" resultType="com.example.billmanager.brickyard.dto.PayInfoDto">
+        select t.pay_serial_no as paySerialNo,
+        t.booking_id as bookingId,
+        t.pay_date as payDate,
+        t.pay_amount as payAmount,
+        t.operator as operator,
+        t.remark as remark
+        from pay_info t
+        <where>
+            t.data_state = '2'
+            <if test="bookingId != null and bookingId != ''">
+                and t.booking_id  = #{bookingId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+</mapper>

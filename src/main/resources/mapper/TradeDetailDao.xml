@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.jdbcteplate.dao.TradeDetailDao">
+<mapper namespace="com.example.billmanager.dao.TradeDetailDao">
 
-    <resultMap id="BaseResultMap" type="com.example.jdbcteplate.dto.TradeDetailDTO">
+    <resultMap id="BaseResultMap" type="com.example.billmanager.dto.TradeDetailDTO">
         <id column="trade_no" jdbcType="INTEGER" property="tradeNo"/>
         <result column="trade_type" jdbcType="VARCHAR" property="tradeType"/>
         <result column="trade_class" jdbcType="VARCHAR" property="tradeClass"/>
@@ -24,7 +24,7 @@
         where trade_no = #{tradeNo,jdbcType=VARCHAR}
     </select>
 
-    <select id="query" resultType="com.example.jdbcteplate.dto.TradeDetailDTO">
+    <select id="query" resultType="com.example.billmanager.dto.TradeDetailDTO">
         select
         <include refid="Base_Column_List"/>
         from trade_detail
@@ -42,7 +42,7 @@
   </delete>
 
     <insert id="insert" keyColumn="trade_no" keyProperty="tradeNo"
-            parameterType="com.example.jdbcteplate.dto.TradeDetailDTO" useGeneratedKeys="true">
+            parameterType="com.example.billmanager.dto.TradeDetailDTO" useGeneratedKeys="true">
     insert into trade_detail (trade_type, trade_class, trade_sum, 
       trade_date, data_source, remark)
     values (#{tradeType,jdbcType=VARCHAR}, #{tradeClass,jdbcType=VARCHAR}, #{tradeSum,jdbcType=DECIMAL}, 
@@ -50,7 +50,7 @@
   </insert>
 
     <insert id="insertSelective" keyColumn="trade_no" keyProperty="tradeNo"
-            parameterType="com.example.jdbcteplate.dto.TradeDetailDTO" useGeneratedKeys="true">
+            parameterType="com.example.billmanager.dto.TradeDetailDTO" useGeneratedKeys="true">
         insert into trade_detail
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="tradeType != null">
@@ -99,7 +99,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.example.jdbcteplate.dto.TradeDetailDTO">
+    <update id="updateByPrimaryKeySelective" parameterType="com.example.billmanager.dto.TradeDetailDTO">
         update trade_detail
         <set>
             <if test="tradeType != null">
@@ -127,7 +127,7 @@
         where trade_no = #{tradeNo,jdbcType=VARCHAR}
     </update>
 
-    <update id="updateByPrimaryKey" parameterType="com.example.jdbcteplate.dto.TradeDetailDTO">
+    <update id="updateByPrimaryKey" parameterType="com.example.billmanager.dto.TradeDetailDTO">
     update trade_detail
     set trade_type = #{tradeType,jdbcType=VARCHAR},
       trade_class = #{tradeClass,jdbcType=VARCHAR},

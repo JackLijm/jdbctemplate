@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.jdbcteplate.dao.SysDictValueDao">
+<mapper namespace="com.example.billmanager.dao.SysDictValueDao">
 
-    <resultMap id="BaseResultMap" type="com.example.jdbcteplate.dto.SysDictValueDTO">
+    <resultMap id="BaseResultMap" type="com.example.billmanager.dto.SysDictValueDTO">
         <result column="dict_key" jdbcType="VARCHAR" property="dictKey"/>
         <result column="dict_value" jdbcType="VARCHAR" property="dictValue"/>
         <result column="value_name" jdbcType="VARCHAR" property="valueName"/>
     </resultMap>
 
-    <insert id="insert" parameterType="com.example.jdbcteplate.dto.SysDictValueDTO">
+    <insert id="insert" parameterType="com.example.billmanager.dto.SysDictValueDTO">
     insert into sys_dict_value (dict_key,dict_value, value_name)
     values (#{dictKey,jdbcType=VARCHAR},#{dictValue,jdbcType=VARCHAR}, #{valueName,jdbcType=VARCHAR})
   </insert>
 
-    <insert id="insertSelective" parameterType="com.example.jdbcteplate.dto.SysDictValueDTO">
+    <insert id="insertSelective" parameterType="com.example.billmanager.dto.SysDictValueDTO">
         insert into sys_dict_value
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="dictKey != null">

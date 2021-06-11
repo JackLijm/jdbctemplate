@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.billmanager.dao.BillFileRecordDao">
+  <resultMap id="BaseResultMap" type="com.example.billmanager.dto.BillFileRecordDTO">
+    <id column="bill_file_id" jdbcType="INTEGER" property="billFileId" />
+    <result column="import_batch_no" jdbcType="VARCHAR" property="importBatchNo" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="import_status" jdbcType="VARCHAR" property="importStatus" />
+    <result column="import_date" jdbcType="TIMESTAMP" property="importDate" />
+    <result column="import_result" jdbcType="VARCHAR" property="importResult" />
+    <result column="import_user" jdbcType="VARCHAR" property="importUser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    bill_file_id, import_batch_no, file_name, import_status, import_date, import_result, 
+    import_user
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bill_file_record
+    where bill_file_id = #{billFileId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from bill_file_record
+    where bill_file_id = #{billFileId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="bill_file_id" keyProperty="billFileId" parameterType="com.example.billmanager.dto.BillFileRecordDTO" useGeneratedKeys="true">
+    insert into bill_file_record (import_batch_no, file_name, import_status, 
+      import_date, import_result, import_user
+      )
+    values (#{importBatchNo,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{importStatus,jdbcType=VARCHAR}, 
+      #{importDate,jdbcType=TIMESTAMP}, #{importResult,jdbcType=VARCHAR}, #{importUser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="bill_file_id" keyProperty="billFileId" parameterType="com.example.billmanager.dto.BillFileRecordDTO" useGeneratedKeys="true">
+    insert into bill_file_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="importBatchNo != null">
+        import_batch_no,
+      </if>
+      <if test="fileName != null">
+        file_name,
+      </if>
+      <if test="importStatus != null">
+        import_status,
+      </if>
+      <if test="importDate != null">
+        import_date,
+      </if>
+      <if test="importResult != null">
+        import_result,
+      </if>
+      <if test="importUser != null">
+        import_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="importBatchNo != null">
+        #{importBatchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null">
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="importStatus != null">
+        #{importStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="importDate != null">
+        #{importDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="importResult != null">
+        #{importResult,jdbcType=VARCHAR},
+      </if>
+      <if test="importUser != null">
+        #{importUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.billmanager.dto.BillFileRecordDTO">
+    update bill_file_record
+    <set>
+      <if test="importBatchNo != null">
+        import_batch_no = #{importBatchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null">
+        file_name = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="importStatus != null">
+        import_status = #{importStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="importDate != null">
+        import_date = #{importDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="importResult != null">
+        import_result = #{importResult,jdbcType=VARCHAR},
+      </if>
+      <if test="importUser != null">
+        import_user = #{importUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where bill_file_id = #{billFileId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.billmanager.dto.BillFileRecordDTO">
+    update bill_file_record
+    set import_batch_no = #{importBatchNo,jdbcType=VARCHAR},
+      file_name = #{fileName,jdbcType=VARCHAR},
+      import_status = #{importStatus,jdbcType=VARCHAR},
+      import_date = #{importDate,jdbcType=TIMESTAMP},
+      import_result = #{importResult,jdbcType=VARCHAR},
+      import_user = #{importUser,jdbcType=VARCHAR}
+    where bill_file_id = #{billFileId,jdbcType=INTEGER}
+  </update>
+</mapper>
