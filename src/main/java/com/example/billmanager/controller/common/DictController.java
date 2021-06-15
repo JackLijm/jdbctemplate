@@ -85,7 +85,7 @@ public class DictController {
     @RequestMapping("/addDictValue")
     public CommonDTO addDictValue(@RequestBody SysDictValueDTO sysDictValueDTO) {
         int insert = valueDao.insert(sysDictValueDTO);
-        dictValueCache.put(cacheDictValueKey, sysDictValueDTO.getDictKey(), sysDictValueDTO);
+        dictValueCache.put(cacheDictValueKey, sysDictValueDTO.tableKey(), sysDictValueDTO);
         return CommonDTO.ok();
     }
 
@@ -98,7 +98,7 @@ public class DictController {
     @RequestMapping("/updateDictValue")
     public CommonDTO updateDictValue(@RequestBody SysDictValueDTO sysDictValueDTO) {
         int insert = valueDao.update(sysDictValueDTO);
-        dictValueCache.put(cacheDictValueKey, sysDictValueDTO.getDictKey(), sysDictValueDTO);
+        dictValueCache.put(cacheDictValueKey, sysDictValueDTO.tableKey(), sysDictValueDTO);
         return CommonDTO.ok();
     }
 
@@ -111,7 +111,7 @@ public class DictController {
     @RequestMapping("/delDictValue")
     public CommonDTO delDictValue(@RequestBody SysDictValueDTO sysDictValueDTO) {
         int insert = valueDao.delete(sysDictValueDTO);
-        dictValueCache.remove(cacheDictValueKey, sysDictValueDTO.getDictKey());
+        dictValueCache.remove(cacheDictValueKey, sysDictValueDTO.tableKey());
         return CommonDTO.ok();
     }
 
@@ -143,7 +143,7 @@ public class DictController {
         } else {
             valueSelect = valueDao.select();
             for (SysDictValueDTO sysDictValueDTO : valueSelect) {
-                dictValueCache.put(cacheDictValueKey, sysDictValueDTO.getDictKey(), sysDictValueDTO);
+                dictValueCache.put(cacheDictValueKey, sysDictValueDTO.tableKey(), sysDictValueDTO);
             }
         }
 

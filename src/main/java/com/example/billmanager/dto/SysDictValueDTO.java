@@ -25,4 +25,8 @@ public class SysDictValueDTO implements Serializable {
     private String valueName;
 
     private static final long serialVersionUID = 1L;
+
+    public String tableKey(){
+        return dictKey + "\r\n" + dictValue;
+    }
 }
